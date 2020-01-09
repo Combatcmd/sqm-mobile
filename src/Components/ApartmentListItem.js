@@ -52,33 +52,36 @@ const mock = [
   },
 ];
 
-export default ApartmentListItem = props => (
-  <TouchableOpacity>
-    <View style={{padding: 15}}>
-      <Image
-        source={{
-          uri: mock[0].image[0],
-        }}
-        style={{height: 200}}
-      />
-      <View style={{flexDirection: 'column'}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <Text style={{flexShrink: 1}}>{mock[0].name}</Text>
-          <Text>{mock[0].price}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <Text style={{flexShrink: 1}}>{mock[0].address}</Text>
-          <Text>{`${mock[0].rooms} • ${mock[0].square}`}</Text>
+export default ApartmentListItem = props => {
+  const {attributes} = props.item;
+  return (
+    <TouchableOpacity>
+      <View style={{padding: 15}}>
+        <Image
+          source={{
+            uri: attributes.image_url,
+          }}
+          style={{height: 200}}
+        />
+        <View style={{flexDirection: 'column'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={{flexShrink: 1}}>{mock[0].name}</Text>
+            <Text>{mock[0].price}</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={{flexShrink: 1}}>{attributes.address}</Text>
+            <Text>{`${mock[0].rooms} • ${mock[0].square}`}</Text>
+          </View>
         </View>
       </View>
-    </View>
-  </TouchableOpacity>
-);
+    </TouchableOpacity>
+  );
+};

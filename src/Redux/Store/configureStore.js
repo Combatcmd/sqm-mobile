@@ -9,6 +9,7 @@ import rootReducer from 'Reducers';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  blackList: ['filter','apartments']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
-import {Dimensions} from 'react-native';
+import {Dimensions, FlatList, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 Icon.loadFont();
 
@@ -13,7 +13,8 @@ const {width} = Dimensions.get('window');
 
 export default List = () => {
   const dispatch = useDispatch();
-  const data = useSelector(state => state.apartments.apartments.data.data)
+  const data = useSelector(state => state.apartments.apartments.data.data);
+  const filter = useSelector(state => state.filter.searchQuery);
 
   useEffect(() => {
     const fetchApartments = async (startdate, enddate, sp, ep, city) => {
@@ -21,11 +22,25 @@ export default List = () => {
       let response = await axios(url);
       return dispatch(fetchApartmentsSucceeded(response));
     };
-    fetchApartments('2019-12-12', '2019-12-18', 1000, 50000, 1);
+    fetchApartments(
+      '2019-12-12',
+      '2019-12-18',
+      filter.sp,
+      filter.ep,
+      filter.city,
+    );
   }, []);
+
+  const renderApartmentListItem = item => <ApartmentListItem item={item} />;
+
   return (
     <>
-      <ApartmentListItem />
+      {data && (
+        <FlatList
+          data={data}
+          renderItem={({item}) => renderApartmentListItem(item)}
+        />
+      )}
     </>
   );
 };
