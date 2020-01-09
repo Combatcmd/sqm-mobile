@@ -61,22 +61,22 @@ export default ApartmentListItem = props => (
         }}
         style={{height: 200}}
       />
-      <View style={{flex: 1, flexDirection: 'column'}}>
+      <View style={{flexDirection: 'column'}}>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <Text style={{flexShrink: 1}}></Text>
-          <Text></Text>
+          <Text style={{flexShrink: 1}}>{mock[0].name}</Text>
+          <Text>{mock[0].price}</Text>
         </View>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <Text style={{flexShrink: 1}}></Text>
-          <Text></Text>
+          <Text style={{flexShrink: 1}}>{mock[0].address}</Text>
+          <Text>{`${mock[0].rooms} • ${mock[0].square}`}</Text>
         </View>
       </View>
     </View>

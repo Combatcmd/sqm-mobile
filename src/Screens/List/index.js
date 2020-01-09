@@ -1,13 +1,33 @@
-import React from 'react';
-import {Dimensions, View, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import axios from 'axios';
+import {Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 Icon.loadFont();
 
 import {Input, ApartmentListItem} from 'Components';
 
+import {fetchApartmentsSucceeded, fetchApartmentsFailed} from 'Actions';
+
 const {width} = Dimensions.get('window');
+
 export default List = () => {
-  return <><ApartmentListItem/></>;
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.apartments.apartments.data.data)
+
+  useEffect(() => {
+    const fetchApartments = async (startdate, enddate, sp, ep, city) => {
+      let url = `http://sqm.kz/api/apartments?filter=[{"not":{"and":[{"name":"reservations","op":"any","val":{"name":"end_date","op":"ge","val":"${startdate}"}},{"name":"reservations","op":"any","val":{"name":"start_date","op":"le","val":"${enddate}"}}]}},{"name":"price","op":"gt","val":"${sp}"},{"name":"price","op":"lt","val":"${ep}"},{"name":"city_id","op":"eq","val":"${city}"}]`;
+      let response = await axios(url);
+      return dispatch(fetchApartmentsSucceeded(response));
+    };
+    fetchApartments('2019-12-12', '2019-12-18', 1000, 50000, 1);
+  }, []);
+  return (
+    <>
+      <ApartmentListItem />
+    </>
+  );
 };
 
 List.navigationOptions = {
